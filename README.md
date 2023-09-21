@@ -27,6 +27,14 @@
 
 请用Unity打开并选择GameScene场景调试运行
 
+![载入界面](Previews/1.png)
+
+![主界面](Previews/3.png)
+
+![主界面](Previews/2.png)
+
+![游戏界面](Previews/4.png)
+
 ## 3、更新日志
 
 ### 计划中
