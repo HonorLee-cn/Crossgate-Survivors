@@ -1,0 +1,253 @@
+using System;
+using System.Reflection;
+using UnityEngine;
+
+namespace GameData
+{
+    
+    public class Info
+    {
+        public int MaxHP;
+        public int MaxMP;
+        public int ATK;
+        public int DEF;
+        public int SPD;
+        public int Level;
+        public int NextLevelEXP;
+    }
+
+
+    public class Attr
+    {
+        //基础数值
+        public static class ValueBase
+        {
+            public static int HP = 20;
+            public static int MP = 20;
+            public static int ATK = 20;
+            public static int DEF = 3;
+            public static int SPD = 40;
+            public static int EXP = 50;
+            public static int Loot_Exp = 10;
+            public static int Loot_Coin = 10;
+            public static float Loot_HP = 10;
+            public static float Loot_MP = 10;
+        }
+        public int Level { get; set; }
+        public int NextLevelEXP { get; set; }
+        public int EXP { get; set; }
+
+        public int ATK { get; set; }
+        public int ATK_Base { get; set; }
+        public int ATK_Addon { get; set; }
+        public int ATK_Addon_Rate { get; set; }
+        public int DEF { get; set; }
+        public int DEF_Base { get; set; }
+        public int DEF_Addon { get; set; }
+        public int DEF_Addon_Rate { get; set; }
+        public int SPD { get; set; }
+        public int SPD_Base { get; set; }
+        public int SPD_Addon { get; set; }
+        public int SPD_Addon_Rate { get; set; }
+        
+        public int HP { get; set; }
+        public int MaxHP { get; set; }
+        public int MaxHP_Base { get; set; }
+        public int MaxHP_Addon { get; set; }
+        public int MaxHP_Addon_Rate { get; set; }
+
+        public int MP { get; set; }
+        public int MaxMP { get; set; }
+        public int MaxMP_Base { get; set; }
+        public int MaxMP_Addon { get; set; }
+        public int MaxMP_Addon_Rate { get; set; }
+        
+        public int Dodge { get; set; }
+        public int MaxDodge { get; set; }
+        public float DodgeCD_Base { get; set; }
+        public int DodgeCD_Addon_Rate { get; set; }
+        public float DodgeCD { get; set; }
+        //
+        // public float ATKCD_Base { get; set; }
+        // public float ATKCD_Addon_Rate { get; set; }
+        // public float ATKCD { get; set; }
+
+        // 属性变化通知
+        public delegate void AttrChange(string prop,int value,Attr attr);
+        public event AttrChange OnAttrChange;
+
+        public Attr()
+        {
+            Change("MaxDodge", 1);
+            Change("Dodge", 1);
+            Change("DodgeCD_Base", 5f);
+            Change("DodgeCD_Addon_Rate", 0);
+        }
+        // 数值变化
+        public int Change(string prop,int value)
+        {
+            object obj = GetPropertyValue(prop);;
+            if(obj == null) return 0;
+            int val = 0;
+            val = (int) obj;
+            
+            val = val + value;
+            SetPropertyValue(prop,val);
+            
+            switch (prop)
+            {
+                case "HP":
+                    if (val > MaxHP) val = MaxHP;
+                    if (val < 0) val = 0;
+                    HP = val;
+                    break;
+                case "MP":
+                    if (val > MaxMP) val = MaxMP;
+                    if (val < 0) val = 0;
+                    MP = val;
+                    break;
+                case "EXP":
+                    if (val >= NextLevelEXP)
+                    {
+                        val = val - NextLevelEXP;
+                        EXP = val;
+                        Level++;
+                        OnAttrChange?.Invoke("Level", Level, this);
+                        OnAttrChange?.Invoke("NextLevelEXP", NextLevelEXP, this);
+                    }
+                    break;
+                case "Dodge":
+                    if (val > MaxDodge) val = MaxDodge;
+                    if (val < 0) val = 0;
+                    Dodge = val;
+                    break;
+                case "MaxDodge":
+                    if (val < Dodge)
+                    {
+                        OnAttrChange?.Invoke("Dodge", Dodge, this);
+                        Dodge = val;
+                    }
+                    break;
+                case "DodgeCD":
+                case "DodgeCD_Addon_Rate":
+                    DodgeCD = DodgeCD_Base - DodgeCD_Base * DodgeCD_Addon_Rate / 100;
+                    // OnAttrChange?.Invoke("DodgeCD", DodgeCD, this);
+                    break;
+                case "MaxHP_Base":
+                case "MaxHP_Addon":
+                case "MaxHP_Addon_Rate":
+                    int max = MaxHP_Base + MaxHP_Addon + MaxHP_Base * MaxHP_Addon_Rate / 100;
+                    int diff = max - MaxHP;
+                    MaxHP = max;
+                    if (HP > MaxHP) Change("HP", MaxHP);
+                    if (diff > 0) Change("HP", diff);
+                    OnAttrChange?.Invoke("MaxHP",MaxHP,this);
+                    break;
+                case "MaxMP_Base":
+                case "MaxMP_Addon":
+                case "MaxMP_Addon_Rate":
+                    MaxMP = MaxMP_Base + MaxMP_Addon + MaxMP_Base * MaxMP_Addon_Rate / 100;
+                    if (MP > MaxMP) Change("MP", MaxMP);
+                    OnAttrChange?.Invoke("MaxMP",MaxMP,this);
+                    break;
+                case "ATK_Base":
+                case "ATK_Addon":
+                case "ATK_Addon_Rate":
+                    ATK = ATK_Base + ATK_Addon + ATK_Base * ATK_Addon_Rate / 100;
+                    OnAttrChange?.Invoke("ATK",ATK,this);
+                    break;
+                case "DEF_Base":
+                case "DEF_Addon":
+                case "DEF_Addon_Rate":
+                    DEF = DEF_Base + DEF_Addon + DEF_Base * DEF_Addon_Rate / 100;
+                    OnAttrChange?.Invoke("DEF",DEF,this);
+                    break;
+                case "SPD_Base":
+                case "SPD_Addon":
+                case "SPD_Addon_Rate":
+                    SPD = SPD_Base + SPD_Addon + SPD_Base * SPD_Addon_Rate / 100;
+                    OnAttrChange?.Invoke("SPD",SPD,this);
+                    break;
+                
+            }
+            
+            OnAttrChange?.Invoke(prop,val,this);
+            return val;
+        }
+        public float Change(string prop,float value)
+        {
+            object obj = GetPropertyValue(prop);;
+            if(obj == null) return 0;
+            float val = 0;
+            val = (float) obj;
+            val = val + value;
+            SetPropertyValue(prop, val);
+            switch (prop)
+            {
+                // case "ATKRate_Base":
+                // case "ATKRate_Addon":
+                // case "ATKRate_Addon_Rate":
+                //     ATKCD = ATKCD_Base + ATKCD_Base * ATKCD_Addon_Rate;
+                //     // OnAttrChange?.Invoke("ATKRate",(int)ATKRate);
+                //     break;
+                case "DodgeCD_Base":
+                case "DodgeCD_Addon":
+                case "DodgeCD_Addon_Rate":
+                    DodgeCD = DodgeCD_Base + DodgeCD_Base * DodgeCD_Addon_Rate;
+                    // OnAttrChange?.Invoke("DodgeCD",(int)DodgeCD);
+                    break;
+            }
+            // OnAttrChange?.Invoke(prop.ToString(),(int)val);
+            return val;
+        }
+
+        public void ChangeValue(string prop, int val)
+        {
+            object obj = GetPropertyValue(prop);;
+            if(obj == null) return;
+            int value = 0;
+            value = (int) obj;
+            value = val - value;
+            Change(prop, value);
+        }
+        
+        public object GetPropertyValue(string propertyName)
+        {
+            Type type = GetType();
+            PropertyInfo propertyInfo = type.GetProperty(propertyName);
+            if (propertyInfo != null)
+            {
+                return propertyInfo.GetValue(this, null);
+            }
+            else
+            {
+                return null;
+            }
+        }
+        private void SetPropertyValue(string propertyName, object value)
+        {
+            Type type = GetType();
+            PropertyInfo propertyInfo = type.GetProperty(propertyName);
+
+            if (propertyInfo != null)
+            {
+                propertyInfo.SetValue(this, value, null);
+            }
+        }
+        
+
+        public void SetBaseAttrs(Info info)
+        {
+            Change("MaxHP_Base",info.MaxHP);
+            Change("HP",info.MaxHP);
+            Change("MaxMP_Base",info.MaxMP);
+            Change("MP",info.MaxMP);
+            Change("ATK_Base",info.ATK);
+            Change("DEF_Base",info.DEF);
+            Change("SPD_Base",info.SPD);
+            Change("Level",info.Level);
+            Change("NextLevelEXP",info.NextLevelEXP);
+        }
+        
+    }
+}
