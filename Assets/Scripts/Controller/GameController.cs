@@ -353,9 +353,9 @@ namespace Controller
             if (Input.GetKeyDown(KeyCode.V))
             {
                 // GlobalReference.BattleData.PlayerUnit.LearSkill(19);
-                // GlobalReference.BattleData.PlayerUnit.Attr.EXP = GlobalReference.BattleData.PlayerUnit.Attr.NextLevelEXP;
-                GlobalReference.BattleData.Money += 10000;
-                GlobalReference.UI.BattleUI.InteractiveAction.ShopPanel.gameObject.SetActive(true);
+                GlobalReference.BattleData.PlayerUnit.Attr.EXP = GlobalReference.BattleData.PlayerUnit.Attr.NextLevelEXP;
+                // GlobalReference.BattleData.Money += 10000;
+                // GlobalReference.UI.BattleUI.InteractiveAction.ShopPanel.gameObject.SetActive(true);
 
                 // for (int i = 0; i < ItemSetting.ItemInfos.Count; i++)
                 // {

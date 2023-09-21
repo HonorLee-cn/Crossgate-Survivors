@@ -13672,7 +13672,6 @@ MonoBehaviour:
   Loading: {fileID: 671717811}
   ErrorObject: {fileID: 1106521278}
   ErrorText: {fileID: 1465896651}
-  FindPath: {fileID: 1033501730}
 --- !u!1 &1174882060
 GameObject:
   m_ObjectHideFlags: 0

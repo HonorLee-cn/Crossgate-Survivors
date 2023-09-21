@@ -318,11 +318,17 @@ namespace Prefeb
             PlayerSkills.Add(skill);
             SkillLevel.Add(skillID, skill);
             
+            // 如果非当前角色的普攻和得意技则设定为自动技能
+            if (skillID != _playerInfo.ATKSkill && skillID != _playerInfo.SpecialSkill)
+            {
+                skill.IsAudoSkill = true;
+                skill.StartCD();
+                return;
+            }
             // 如果是怪物则设定所有技能为自动技能
             if (IsEnemy)
             {
                 skill.IsAudoSkill = true;
-                // skill.StartCD();
                 return;
             }
             
