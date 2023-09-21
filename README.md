@@ -1,5 +1,5 @@
 # Crossgate Survivors 魔力宝贝幸存者
-## Unity C# 项目源码
+## Unity C# 项目源码 (Unity开发版本 2021.3.30f1)
 
 ## 1、开源目的
 本脚本旨在学习研究```Crossgate``` ```魔力宝贝``` 图档bin文件的解压与使用，和幸存者游戏模式的学习制作
