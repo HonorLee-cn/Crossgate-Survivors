@@ -660,6 +660,23 @@ namespace GameData
                 AbilityDescTpl = "对进入光环{Range}范围的敌人每秒造成{Effect}%攻击力的伤害。",
                 AbilityLevelUpDescTpl = "每级增大{RangePerLevel}范围，提高{EffectPerLevel}%伤害。"
             },
+            new SkillInfo()
+            {
+                ID = 20,
+                Name = "拿来吧你",
+                Desc = "我的!都是我的!",
+                Icon = 30076,
+                CD = 0f,
+                CDReduceRatePerLevel = 0f,
+                MaxLevel = 20,
+                Params = new Dictionary<string, object>()
+                {
+                    ["Range"] = 0,
+                    ["RangePerLevel"] = 10
+                },
+                AbilityDescTpl = "拾取范围扩大{Range}%。",
+                AbilityLevelUpDescTpl = "每级扩大{RangePerLevel}%范围。"
+            },
         };
     }
 }
