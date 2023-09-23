@@ -105,9 +105,9 @@ namespace Resources.BattleSkills.s2
             Dictionary<string,object> param = new Dictionary<string, object>(SkillInfo.Params);
             param["Percent"] = (int) SkillInfo.Params["Percent"] + (int) SkillInfo.Params["Percent"] * level *
                 (int) SkillInfo.Params["PercentRatePerLevel"] / 100;
-            param["Range"] = (int)SkillInfo.Params["Range"] + (int)SkillInfo.Params["RangePerLevel"] * Level;
-            param["Speed"] = (int)SkillInfo.Params["Speed"] + (int)SkillInfo.Params["SpeedPerLevel"] * Level;
-            param["Count"] = (int) SkillInfo.Params["Count"] + Level / 3 * (int)SkillInfo.Params["CountPer3Level"];
+            param["Range"] = (int)SkillInfo.Params["Range"] + (int)SkillInfo.Params["RangePerLevel"] * level;
+            param["Speed"] = (int)SkillInfo.Params["Speed"] + (int)SkillInfo.Params["SpeedPerLevel"] * level;
+            param["Count"] = (int) SkillInfo.Params["Count"] + level / 3 * (int)SkillInfo.Params["CountPer3Level"];
             return param;
         }
     }    

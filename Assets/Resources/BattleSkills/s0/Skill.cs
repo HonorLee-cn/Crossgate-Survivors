@@ -90,11 +90,11 @@ namespace Resources.BattleSkills.s0
         public override Dictionary<string, object> GetLevelParams(int level)
         {
             Dictionary<string,object> param = new Dictionary<string, object>(SkillInfo.Params);
-            param["Percent"] = (int) SkillInfo.Params["Percent"] + (int) SkillInfo.Params["Percent"] * Level *
+            param["Percent"] = (int) SkillInfo.Params["Percent"] + (int) SkillInfo.Params["Percent"] * level *
                 (int) SkillInfo.Params["PercentRatePerLevel"] / 100;
-            param["Distance"] = (int)SkillInfo.Params["Distance"] + (int)SkillInfo.Params["DistancePerLevel"] * Level;
-            param["Range"] = (float)SkillInfo.Params["Range"] + (float)SkillInfo.Params["RangePerLevel"] * Level;
-            param["Count"] = (int) SkillInfo.Params["Count"] + Level / 3 * (int)SkillInfo.Params["CountPer3Level"];
+            param["Distance"] = (int)SkillInfo.Params["Distance"] + (int)SkillInfo.Params["DistancePerLevel"] * level;
+            param["Range"] = (float)SkillInfo.Params["Range"] + (float)SkillInfo.Params["RangePerLevel"] * level;
+            param["Count"] = (int) SkillInfo.Params["Count"] + level / 3 * (int)SkillInfo.Params["CountPer3Level"];
             return param;
         }
     }    

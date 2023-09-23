@@ -186,8 +186,8 @@ namespace Controller
                 IsGameStart = true;
 
                 // 角色学习默认攻击技能和得意技
-                GlobalReference.BattleData.PlayerUnit.LearSkill(_PlayerInfo.ATKSkill);
-                GlobalReference.BattleData.PlayerUnit.LearSkill(_PlayerInfo.SpecialSkill);
+                GlobalReference.BattleData.PlayerUnit.LearnSkill(_PlayerInfo.ATKSkill);
+                GlobalReference.BattleData.PlayerUnit.LearnSkill(_PlayerInfo.SpecialSkill);
                 // 增加学习点数,开启技能选择
                 GlobalReference.BattleData.LearnPoint++;
                 // 回合控制器初始化
@@ -352,8 +352,8 @@ namespace Controller
             // V 调试按键
             if (Input.GetKeyDown(KeyCode.V))
             {
-                // GlobalReference.BattleData.PlayerUnit.LearSkill(19);
-                GlobalReference.BattleData.PlayerUnit.Attr.EXP = GlobalReference.BattleData.PlayerUnit.Attr.NextLevelEXP;
+                GlobalReference.BattleData.PlayerUnit.LearnSkill(21);
+                // GlobalReference.BattleData.PlayerUnit.Attr.EXP = GlobalReference.BattleData.PlayerUnit.Attr.NextLevelEXP;
                 // GlobalReference.BattleData.Money += 10000;
                 // GlobalReference.UI.BattleUI.InteractiveAction.ShopPanel.gameObject.SetActive(true);
 

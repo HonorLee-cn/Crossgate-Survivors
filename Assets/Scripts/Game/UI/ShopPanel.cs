@@ -32,7 +32,7 @@ namespace Game.UI
             for (int i = 0; i < 3; i++)
             {
                 ItemSetting.Item item =
-                    ItemSetting.GetRandomItem(GlobalReference.BattleData.PlayerUnit.Attr.Level / 2);
+                    ItemSetting.GetRandomItem(GlobalReference.BattleData.PlayerUnit.Attr.Level / 5);
                 ItemListData.Add(item);
             }
             // 生成道具列表

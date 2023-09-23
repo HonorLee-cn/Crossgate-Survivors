@@ -31,6 +31,8 @@ namespace Prefeb
         [NonSerialized] public Dictionary<int,SkillSetting.SkillBase> SkillLevel = new Dictionary<int, SkillSetting.SkillBase>();
         // 单位被动加成效果
         [NonSerialized] public Dictionary<string,object> UnitEffects = new Dictionary<string, object>();
+        // 单位Buff
+        [NonSerialized] public List<BuffSetting.Buff> Buffs = new List<BuffSetting.Buff>();
 
         // 移动方向
         private Anime.DirectionType _moveDirection = Anime.DirectionType.NULL;
@@ -276,10 +278,11 @@ namespace Prefeb
         }
         
         // 学习技能
-        public void LearSkill(int skillID,int level = 1)
+        public void LearnSkill(int skillID,int level = 1)
         {
             if (SkillLevel.ContainsKey(skillID))
             {
+                if (SkillLevel[skillID].Level >= SkillLevel[skillID].SkillInfo.MaxLevel) return;
                 SkillLevel[skillID].LevelUp();
                 return;
             }
@@ -323,7 +326,6 @@ namespace Prefeb
             {
                 skill.IsAudoSkill = true;
                 skill.StartCD();
-                return;
             }
             // 如果是怪物则设定所有技能为自动技能
             if (IsEnemy)
@@ -487,7 +489,7 @@ namespace Prefeb
             // 使用 Rigidbody2D 来移动对象
             _rigidbody.velocity = moveDirection * _speed;
             TargetPosition = playerPos;
-            
+
 
         }
         
@@ -561,6 +563,14 @@ namespace Prefeb
                 if (other.gameObject.CompareTag("MapUnit") || other.gameObject.CompareTag("EnemyUnit"))
                 {
                     EscapeFromMapUnit(other);
+                }
+
+                Vector3Int loc = Toolkit.GetTilePosition(transform.position);
+                if(loc.x<0 || loc.y<0 || loc.x>=GlobalReference.BattleData.LevelInfo.MapWidth || loc.y>=GlobalReference.BattleData.LevelInfo.MapHeight)
+                {
+                    transform.position = Toolkit.TileLocationToPosition(new Vector2Int(
+                        GlobalReference.BattleData.LevelInfo.MapWidth / 2,
+                        GlobalReference.BattleData.LevelInfo.MapHeight / 2));
                 }
             }
         }
@@ -653,15 +663,15 @@ namespace Prefeb
                 if (!IsEnemy) GameController.IsGameStart = false;
                 IsDead = true;
                 _walkable = false;
+                _speed = 0;
                 _rigidbody.velocity = Vector2.zero;
                 _rigidbody.mass = 10000;
                 GetComponent<BoxCollider2D>().enabled = false;
-                if (!IsEnemy) GameController.IsGameStart = false;
-                float speed = IsEnemy ? 2f : 1f;
                 PlayerSkills.ForEach(skill => skill.IsAudoSkill = false);
+                
+                float speed = IsEnemy ? 2f : 1f;
                 AnimePlayer.playOnce(FaceDirection, Anime.ActionType.Dead,speed,(action) =>
                 {
-                    _rigidbody.velocity = Vector2.zero;
                     // 如果死亡的是怪物,则生成掉落物
                     if (IsEnemy)
                     {
@@ -692,7 +702,7 @@ namespace Prefeb
                     
                     if (!IsEnemy)
                     {
-                        GameController.IsGameStart = false;
+                        Debug.Log("游戏结束");
                         DOTween.Sequence().SetDelay(1f).onComplete += () =>
                         {
                             GameController.EndGame(true); 

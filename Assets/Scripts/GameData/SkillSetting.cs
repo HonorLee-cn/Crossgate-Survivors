@@ -677,6 +677,29 @@ namespace GameData
                 AbilityDescTpl = "拾取范围扩大{Range}%。",
                 AbilityLevelUpDescTpl = "每级扩大{RangePerLevel}%范围。"
             },
+            new SkillInfo()
+            {
+                ID = 21,
+                Name = "迅捷之风",
+                Desc = "大风起兮云飞扬",
+                Icon = 10112,
+                CD = 5f,
+                CDReduceRatePerLevel = 0.05f,
+                MaxLevel = 10,
+                Params = new Dictionary<string, object>()
+                {
+                    ["Range"] = 50,
+                    ["RangePerLevel"] = 5,
+                    ["Percent"] = 20,
+                    ["PercentPerLevel"] = 8,
+                    ["Speed"] = 20,
+                    ["SpeedPerLevel"] = 5,
+                    ["Radius"] = 30,
+                    ["RadiusPerLevel"] = 2,
+                },
+                AbilityDescTpl = "向前方释放强力大风吹散对方，对{Range}距离{Radius}范围内的敌人造成无视防御的{Percent}%攻击力伤害,并造成强力击退效果。",
+                AbilityLevelUpDescTpl = "每级扩大{RangePerLevel}距离,{RadiusPerLevel}范围,增加{PercentPerLevel}%伤害。"
+            },
         };
     }
 }

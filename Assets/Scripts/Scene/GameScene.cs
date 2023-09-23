@@ -24,7 +24,7 @@ namespace Scene
         
         // 版本更新检测
         private string VersionUrl = "https://honorlee.me/game/cgs/version.html";
-        private float version = 0.15f;
+        private float version = 0.17f;
         private void Start()
         {
             //初始化全局引用

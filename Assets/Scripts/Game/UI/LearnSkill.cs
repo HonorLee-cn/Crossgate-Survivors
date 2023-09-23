@@ -41,7 +41,7 @@ namespace Game.UI
         public void Learn()
         {
             if (CurrentSelectSkillID == -1) return;
-            GlobalReference.BattleData.PlayerUnit.LearSkill(CurrentSelectSkillID);
+            GlobalReference.BattleData.PlayerUnit.LearnSkill(CurrentSelectSkillID);
             GlobalReference.BattleData.LearnPoint--;
             CurrentSelectSkillID = -1;
             if (GlobalReference.BattleData.LearnPoint == 0)

@@ -384,7 +384,7 @@ namespace Controller
                 // 初始化怪物技能
                 enemyInfo.Skills.ForEach(skillID =>
                 {
-                    unit.LearSkill(skillID[0], skillID[1]);
+                    unit.LearnSkill(skillID[0], skillID[1]);
                 });
                 
                 // 如果是BOSS，就初始化BOSS信息
@@ -415,7 +415,7 @@ namespace Controller
                     {
                         bossInfo.Skills.ForEach(skillID =>
                         {
-                            unit.LearSkill(skillID[0], skillID[1]);
+                            unit.LearnSkill(skillID[0], skillID[1]);
                         });
                     }
                     
